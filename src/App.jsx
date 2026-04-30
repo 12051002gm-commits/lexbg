@@ -1001,7 +1001,260 @@ ${f.property_desc||"________________________________"}
   },
 ];
 
-const ALL_TEMPLATES = [...TEMPLATES_MIGRATION, ...TEMPLATES_BCCI, ...TEMPLATES_GENERAL];
+const TEMPLATES_NOTARY = [
+  {
+    id: "n1", cat: "notary",
+    ru: "Декларация по чл. 264 ДОПК (об отсутствии налоговых задолженностей)", en: "Declaration Art. 264 TIPA (no tax debts)", bg: "Декларация по чл. 264 ДОПК (липса на данъчни задължения)",
+    basis: "ДОПК чл. 264", source: "Нотариус / НАП",
+    info_ru: "Обязательная декларация при каждой нотариальной сделке с недвижимостью. Декларирует отсутствие публичных задолженностей у продавца. Нотариус обязан проверить через НАП.",
+    info_en: "Mandatory for every notarial real estate transaction. Declares absence of public debts. Notary must verify with NRA.",
+    docs_ru: "Подписывается лично перед нотариусом. Нотариус направляет запрос в НАП электронно.",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"name", label:{ru:"ФИО декларатора", en:"Full name", bg:"Три имена"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"citizenship", label:{ru:"Гражданство", en:"Citizenship", bg:"Гражданство"}, placeholder:"Российская Федерация" },
+      { key:"passport", label:{ru:"Паспорт/загранпаспорт", en:"Passport", bg:"Паспорт"}, placeholder:"P RUS №..., МВД ..., до ..." },
+      { key:"address", label:{ru:"Адрес", en:"Address", bg:"Адрес"}, placeholder:"Россия, г. Москва, ул. ..." },
+      { key:"eik_bg", label:{ru:"ЛНЧ/ЕИК в НАП Болгарии", en:"PNF/EIK NRA Bulgaria", bg:"ЛНЧ/ЕИК в НАП"}, placeholder:"1234567890" },
+      { key:"property_desc", label:{ru:"Описание имущества (предмет сделки)", en:"Property description", bg:"Описание на имота"}, placeholder:"Апартамент №7, ет.3, гр. Бургас, 65 кв.м." },
+      { key:"notary_name", label:{ru:"Нотариус (ФИО/рег. №)", en:"Notary", bg:"Нотариус"}, placeholder:"Иван Петров, рег. № 123, Бургас" },
+    ],
+    generate: (f) => `ДЕКЛАРАЦИЯ
+по чл. 264, ал. 1 и ал. 2 от Данъчно-осигурителния процесуален кодекс
+(ДОПК)
+
+Аз, долуподписаният/ата, гр. ${f.name||"________________"},
+${f.dob||"__.__.__"} г.р., гражданство: ${f.citizenship||"________________"},
+паспорт: ${f.passport||"________________"},
+адрес: ${f.address||"________________"},
+ЛНЧ/ЕИК в НАП: ${f.eik_bg||"________________"},
+
+ДЕКЛАРИРАМ,
+
+че към датата на настоящото нотариално производство:
+
+1. НЯМАМ непогасени публични задължения, подлежащи на
+   принудително изпълнение — данъци, осигуровки, глоби и
+   други публични вземания към държавата и общините.
+
+2. Запознат/а съм с разпоредбите на чл. 264, ал. 1 и ал. 2
+   от ДОПК.
+
+3. В случай на установяване на публични задължения,
+   СЪГЛАСЯВАМ СЕ те да бъдат погасени от продажната цена
+   на следния имот:
+
+   ${f.property_desc||"________________________________"}
+
+Нотариус: ${f.notary_name||"________________"}
+
+Известна ми е наказателната отговорност по чл. 313 от НК
+за деклариране на неверни обстоятелства.
+
+Правно основание: чл. 264 от ДОПК
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+
+ДЕКЛАРАТОР: _________________  (${f.name||""})
+`
+  },
+  {
+    id: "n2", cat: "notary",
+    ru: "Заявление за постоянен адрес (в Общину)", en: "Permanent Address Registration (Municipality)", bg: "Заявление за вписване на постоянен адрес",
+    basis: "ЗГР чл. 93-96", source: "Община",
+    info_ru: "Подаётся лично в Общину по месту нахождения имущества. Постоянный адрес (постоянен адрес) — основной адрес регистрации в Болгарии. Необходим для получения ЛНЧ, ВНЖ, банковских документов.",
+    info_en: "Filed in person at the Municipality. Permanent address registration required for PNF, residence permits, banking.",
+    docs_ru: "1. Документ удостоверяющий право на имущество (нот. акт) или согласие собственника
+2. Паспорт/лична карта
+3. Декларация по чл. 92 ЗГР (прилагается)
+4. Без госпошлины",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"municipality", label:{ru:"Название Общины", en:"Municipality", bg:"Община"}, placeholder:"Несебър / Бургас / Варна" },
+      { key:"name", label:{ru:"ФИО заявителя", en:"Applicant name", bg:"Три имена"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"citizenship", label:{ru:"Гражданство", en:"Citizenship", bg:"Гражданство"}, placeholder:"Российская Федерация" },
+      { key:"passport", label:{ru:"Паспорт", en:"Passport", bg:"Паспорт"}, placeholder:"P RUS №..., МВД ..., до ..." },
+      { key:"lnch", label:{ru:"ЛНЧ в Болгарии", en:"PNF in Bulgaria", bg:"ЛНЧ в България"}, placeholder:"1234567890" },
+      { key:"new_address", label:{ru:"Новый постоянный адрес", en:"New permanent address", bg:"Нов постоянен адрес"}, placeholder:"гр. Свети Влас, ул. ..., №..., ет..., ап..." },
+      { key:"property_basis", label:{ru:"Основание (собственник/наниматель)", en:"Basis (owner/tenant)", bg:"Основание (собственик/наемател)"}, placeholder:"собственик — нот. акт № ... / наемател — договор от ..." },
+      { key:"phone", label:{ru:"Телефон", en:"Phone", bg:"Телефон"}, placeholder:"+359 88 123 4567" },
+    ],
+    generate: (f) => `ДО
+КМЕТА НА ОБЩИНА ${(f.municipality||"______").toUpperCase()}
+
+З А Я В Л Е Н И Е
+за вписване на постоянен адрес
+(на основание чл. 93 от Закона за гражданската регистрация)
+
+════════════════════════════════════════
+
+От: ${f.name||"________________"}
+Дата на раждане: ${f.dob||"________________"}
+Гражданство: ${f.citizenship||"________________"}
+Паспорт: ${f.passport||"________________"}
+ЛНЧ: ${f.lnch||"________________"}
+Телефон: ${f.phone||"________________"}
+
+════════════════════════════════════════
+
+МОЛБА:
+
+Моля да бъде вписан следният ПОСТОЯНЕН АДРЕС:
+
+${f.new_address||"________________________________"}
+
+Основание за ползване на адреса:
+${f.property_basis||"________________________________"}
+
+════════════════════════════════════════
+
+Прилагам:
+□ Документ за самоличност (паспорт)
+□ Документ удостоверяващ правото на ползване на адреса
+□ Декларация по чл. 92 от ЗГР (при необходимост)
+
+Правно основание: чл. 93-96 от Закона за гражданската регистрация
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+Гр./с. ${f.municipality||"______"}
+
+ЗАЯВИТЕЛ: _________________  (${f.name||""})
+`
+  },
+  {
+    id: "n3", cat: "notary",
+    ru: "Заявление за настоящ адрес (в Общину)", en: "Current Address Registration (Municipality)", bg: "Заявление за вписване на настоящ адрес",
+    basis: "ЗГР чл. 96", source: "Община",
+    info_ru: "Настоящий адрес (настоящ адрес) — адрес фактического проживания, отличный от постоянного. Необходим для корреспонденции от государственных органов.",
+    info_en: "Current address (different from permanent) — actual place of residence. Required for state correspondence.",
+    docs_ru: "1. Паспорт/лична карта
+2. Документ на жилище
+3. Без госпошлины",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"municipality", label:{ru:"Община", en:"Municipality", bg:"Община"}, placeholder:"Несебър / Бургас" },
+      { key:"name", label:{ru:"ФИО", en:"Full name", bg:"Три имена"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"lnch", label:{ru:"ЛНЧ", en:"PNF", bg:"ЛНЧ"}, placeholder:"1234567890" },
+      { key:"passport", label:{ru:"Паспорт", en:"Passport", bg:"Паспорт"}, placeholder:"P RUS №..." },
+      { key:"permanent_address", label:{ru:"Постоянный адрес", en:"Permanent address", bg:"Постоянен адрес"}, placeholder:"гр. Москва, ул. ..." },
+      { key:"current_address", label:{ru:"Настоящий адрес (фактический)", en:"Current address", bg:"Настоящ адрес"}, placeholder:"гр. Свети Влас, ул. ..., №..., ет..., ап..." },
+      { key:"phone", label:{ru:"Телефон", en:"Phone", bg:"Телефон"}, placeholder:"+359 88 123 4567" },
+    ],
+    generate: (f) => `ДО
+КМЕТА НА ОБЩИНА ${(f.municipality||"______").toUpperCase()}
+
+З А Я В Л Е Н И Е
+за вписване на настоящ адрес
+(на основание чл. 96 от Закона за гражданската регистрация)
+
+════════════════════════════════════════
+
+От: ${f.name||"________________"}
+Дата на раждане: ${f.dob||"________________"}
+ЛНЧ: ${f.lnch||"________________"}
+Паспорт: ${f.passport||"________________"}
+Телефон: ${f.phone||"________________"}
+
+Постоянен адрес: ${f.permanent_address||"________________"}
+
+════════════════════════════════════════
+
+МОЛБА:
+
+Моля да бъде вписан следният НАСТОЯЩ АДРЕС:
+
+${f.current_address||"________________________________"}
+
+════════════════════════════════════════
+
+Прилагам:
+□ Документ за самоличност
+□ Документ за ползване на адреса
+
+Правно основание: чл. 96 от ЗГР
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+
+ЗАЯВИТЕЛ: _________________  (${f.name||""})
+`
+  },
+  {
+    id: "n4", cat: "notary",
+    ru: "Заявление за регистрация в БУЛСТАТ (физическо лице)", en: "BULSTAT Registration Application (individual)", bg: "Заявление за регистрация в регистър БУЛСТАТ",
+    basis: "ЗРБУЛСТАТ чл. 3", source: "Агенция по вписванията",
+    info_ru: "Регистрация в БУЛСТАТ обязательна для иностранных граждан, владеющих недвижимостью в Болгарии, а также для самозанятых и индивидуальных предпринимателей. Подаётся в Агенцию по вписванията или онлайн.",
+    info_en: "BULSTAT registration mandatory for foreign nationals owning property in Bulgaria, self-employed, and sole traders. Filed at Agency of Registrations or online.",
+    docs_ru: "1. Паспорт (копия + оригинал)
+2. Документ-основание (нот. акт / договор)
+3. Форма Б1 или Б7
+4. Без госпошлины для физических лиц",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"name_latin", label:{ru:"ФИО (латиница, как в паспорте)", en:"Full name (Latin)", bg:"Три имена (латиница)"}, placeholder:"IVAN IVANOV IVANOV" },
+      { key:"name_cyr", label:{ru:"ФИО (кириллица)", en:"Full name (Cyrillic)", bg:"Три имена (кирилица)"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"pob", label:{ru:"Место рождения", en:"Place of birth", bg:"Място на раждане"}, placeholder:"Москва, Русия" },
+      { key:"citizenship", label:{ru:"Гражданство", en:"Citizenship", bg:"Гражданство"}, placeholder:"Руска федерация" },
+      { key:"passport", label:{ru:"Загранпаспорт", en:"Passport", bg:"Паспорт"}, placeholder:"P RUS №..., МВД ..., до ..." },
+      { key:"address_ru", label:{ru:"Адрес в стране гражданства", en:"Home country address", bg:"Адрес в страната на гражданство"}, placeholder:"Россия, г. Москва, ул. ..." },
+      { key:"address_bg", label:{ru:"Адрес в Болгарии", en:"Address in Bulgaria", bg:"Адрес в България"}, placeholder:"гр. Свети Влас, ул. ..., №..." },
+      { key:"basis", label:{ru:"Основание регистрации", en:"Registration basis", bg:"Основание за регистрация"}, placeholder:"собственик на недвижим имот / самоосигуряващо се лице" },
+      { key:"property_desc", label:{ru:"Описание имущества (если собственник)", en:"Property (if owner)", bg:"Имот (ако е собственик)"}, placeholder:"Апартамент №7, гр. Свети Влас" },
+    ],
+    generate: (f) => `ЗАЯВЛЕНИЕ
+за регистрация в Регистър БУЛСТАТ
+(на основание чл. 3 от Закона за регистър БУЛСТАТ)
+
+════════════════════════════════════════
+
+ДО АГЕНЦИЯ ПО ВПИСВАНИЯТА
+
+Три имена (латиница): ${f.name_latin||"________________"}
+Три имена (кирилица): ${f.name_cyr||"________________"}
+Дата на раждане: ${f.dob||"________________"}
+Място на раждане: ${f.pob||"________________"}
+Гражданство: ${f.citizenship||"________________"}
+Паспорт: ${f.passport||"________________"}
+
+Адрес в страната на гражданство:
+${f.address_ru||"________________"}
+
+Адрес в България:
+${f.address_bg||"________________"}
+
+════════════════════════════════════════
+
+ОСНОВАНИЕ ЗА РЕГИСТРАЦИЯ:
+${f.basis||"________________"}
+
+${f.property_desc ? `Имот: ${f.property_desc}` : ""}
+
+════════════════════════════════════════
+
+Моля да бъда регистриран/а в Регистър БУЛСТАТ като
+физическо лице, което не е търговец.
+
+Прилагам:
+□ Копие на паспорт
+□ Документ-основание (нотариален акт / договор)
+
+Правно основание: чл. 3 от ЗРБУЛСТАТ
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+
+ЗАЯВИТЕЛ: _________________  (${f.name_latin||""})
+`
+  },
+];
+
+const ALL_TEMPLATES = [...TEMPLATES_MIGRATION, ...TEMPLATES_BCCI, ...TEMPLATES_GENERAL, ...TEMPLATES_NOTARY];
 
 const COURT = [
   { id:1, court:"ВКС", num:"Решение № 112/2023", chamber:"І ТК", area:"business", ru:"По вопросу о недействительности коммерческих сделок.", en:"On invalidity of commercial transactions.", bg:"За недействителност на търговски сделки.", year:2023 },
@@ -1026,12 +1279,12 @@ const AREAS = {
 };
 
 const CAT_LABELS = {
-  ru:{ migration:"МВР Миграция", bcci:"БТТП", contract:"Договоры", application:"Заявления", complaint:"Претензии", lawsuit:"Иски", property:"Недвижимость" },
-  en:{ migration:"MVR Migration", bcci:"BCCI", contract:"Contracts", application:"Applications", complaint:"Complaints", lawsuit:"Lawsuits", property:"Property" },
-  bg:{ migration:"МВР Миграция", bcci:"БТПП", contract:"Договори", application:"Заявления", complaint:"Жалби", lawsuit:"Искове", property:"Недвижимост" },
+  ru:{ migration:"МВР Миграция", bcci:"БТТП", contract:"Договоры", application:"Заявления", complaint:"Претензии", lawsuit:"Иски", property:"Недвижимость", notary:"Нотариус/Община" },
+  en:{ migration:"MVR Migration", bcci:"BCCI", contract:"Contracts", application:"Applications", complaint:"Complaints", lawsuit:"Lawsuits", property:"Property", notary:"Notary/Municipality" },
+  bg:{ migration:"МВР Миграция", bcci:"БТПП", contract:"Договори", application:"Заявления", complaint:"Жалби", lawsuit:"Искове", property:"Недвижимост", notary:"Нотариус/Община" },
 };
-const CAT_COLORS = { migration:"#2563EB", bcci:"#B45309", contract:"#059669", application:"#7C3AED", complaint:"#DC2626", lawsuit:"#374151", property:"#9D4EDD" };
-const CAT_ICONS = { migration:"🛂", bcci:"🏛", contract:"📄", application:"📝", complaint:"⚠️", lawsuit:"⚖️", property:"🏠" };
+const CAT_COLORS = { migration:"#2563EB", bcci:"#B45309", contract:"#059669", application:"#7C3AED", complaint:"#DC2626", lawsuit:"#374151", property:"#9D4EDD", notary:"#0891B2" };
+const CAT_ICONS = { migration:"🛂", bcci:"🏛", contract:"📄", application:"📝", complaint:"⚠️", lawsuit:"⚖️", property:"🏠", notary:"📋" };
 
 const UI = {
   ru:{ home:"Главная", laws:"Законы", court:"Практика", templates:"Шаблоны", ai:"AI", search:"Поиск...", searchLex:"Поиск на lex.bg...", allAreas:"Все", all:"Все", codes:"Кодексы", acts:"Законы", regs:"Наредби", allCourts:"Все", aiHi:"Я — AI-помощник по болгарскому праву. Задайте вопрос.", aiPH:"Ваш вопрос...", loading:"Поиск...", openLex:"Найти на lex.bg", noRes:"Ничего не найдено", copy:"📋 Скопировать", copied:"✅ Скопировано!", generate:"📄 Сгенерировать документ", preview:"Документ готов:", required:"Необходимые документы:", info:"Информация:", quickQ:["Как получить ВНЖ?","Открыть ООД?","Ставка НДС?","Регистрация в БТТП?","Трудовой договор?"] },
@@ -1303,7 +1556,7 @@ export default function App() {
         </div>
         <LangBar/>
         <div style={{...s.row,padding:"10px 14px"}}>
-          {[["all",t.all],["migration","🛂 "+CAT_LABELS[lang].migration],["bcci","🏛 "+CAT_LABELS[lang].bcci],["property","🏠 "+CAT_LABELS[lang].property],["contract",CAT_LABELS[lang].contract],["application",CAT_LABELS[lang].application],["complaint",CAT_LABELS[lang].complaint],["lawsuit",CAT_LABELS[lang].lawsuit]].map(([v,l])=>(
+          {[["all",t.all],["migration","🛂 "+CAT_LABELS[lang].migration],["bcci","🏛 "+CAT_LABELS[lang].bcci],["property","🏠 "+CAT_LABELS[lang].property],["notary","📋 "+CAT_LABELS[lang].notary],["contract",CAT_LABELS[lang].contract],["application",CAT_LABELS[lang].application],["complaint",CAT_LABELS[lang].complaint],["lawsuit",CAT_LABELS[lang].lawsuit]].map(([v,l])=>(
             <button key={v} style={s.pill(tmplCat===v,CAT_COLORS[v]||C.gold)} onClick={()=>setTmplCat(v)}>{l}</button>
           ))}
         </div>
