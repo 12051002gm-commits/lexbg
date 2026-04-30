@@ -747,6 +747,258 @@ ${f.basis_doc||"________________"} от ${f.debt_date||"__"}.
 Подпис: _________________  (${f.sender_name||""})
 `
   },
+  {
+    id: "g5", cat: "property",
+    ru: "Предварительный договор купли-продажи недвижимости", en: "Preliminary Real Estate Purchase Agreement", bg: "Предварителен договор за покупко-продажба",
+    basis: "ЗЗД чл. 19", source: "",
+    info_ru: "Подписывается до нотариальной сделки. Не требует нотариального заверения. При нарушении продавцом — капаро возвращается в двойном размере. При нарушении покупателем — капаро теряется.",
+    info_en: "Signed before notarial deed. No notarization required. Seller breach — double deposit returned. Buyer breach — deposit forfeited.",
+    docs_ru: "Продавец предоставляет:\n1. Нотариальный акт о собственности\n2. Удостоверение за тежести\n3. Удостоверение за данъчна оценка\n4. Акт 16",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"city", label:{ru:"Город", en:"City", bg:"Град"}, placeholder:"Бургас" },
+      { key:"seller_name", label:{ru:"ФИО продавца", en:"Seller", bg:"Продавач"}, placeholder:"Иван Иванов Иванов" },
+      { key:"seller_egn", label:{ru:"ЕГН продавца", en:"Seller EGN", bg:"ЕГН продавач"}, placeholder:"7501011234" },
+      { key:"seller_address", label:{ru:"Адрес продавца", en:"Seller address", bg:"Адрес продавач"}, placeholder:"гр. Бургас, ул. Примерна 1" },
+      { key:"buyer_name", label:{ru:"ФИО покупателя", en:"Buyer", bg:"Купувач"}, placeholder:"Пётр Петров Петров" },
+      { key:"buyer_egn", label:{ru:"ЕГН/ЛНЧ покупателя", en:"Buyer EGN/PNF", bg:"ЕГН/ЛНЧ купувач"}, placeholder:"8502021234" },
+      { key:"buyer_address", label:{ru:"Адрес покупателя", en:"Buyer address", bg:"Адрес купувач"}, placeholder:"гр. София, ул. Примерна 2" },
+      { key:"property_desc", label:{ru:"Описание имущества", en:"Property", bg:"Имот"}, placeholder:"Апартамент №7, ет.3, гр. Бургас, 65 кв.м." },
+      { key:"cadastral", label:{ru:"Кадастральный номер", en:"Cadastral №", bg:"Кадастрален №"}, placeholder:"67338.604.125.1.7" },
+      { key:"notarial_act", label:{ru:"Нотариальный акт №", en:"Deed №", bg:"Нот. акт №"}, placeholder:"№ 123, том II, рег. 4567/2020" },
+      { key:"price", label:{ru:"Цена (лв)", en:"Price (BGN)", bg:"Цена (лв)"}, placeholder:"120000" },
+      { key:"deposit", label:{ru:"Капаро (лв)", en:"Deposit (BGN)", bg:"Капаро (лв)"}, placeholder:"12000" },
+      { key:"deadline", label:{ru:"Срок до", en:"Deadline", bg:"Срок"}, placeholder:"01.06.2025" },
+      { key:"notary_city", label:{ru:"Город нотариуса", en:"Notary city", bg:"Град нотариус"}, placeholder:"Бургас" },
+    ],
+    generate: (f) => `ПРЕДВАРИТЕЛЕН ДОГОВОР
+ЗА ПОКУПКО-ПРОДАЖБА НА НЕДВИЖИМ ИМОТ
+(чл. 19 ЗЗД)
+
+Днес, ${f.date||"__.__.__"} г., гр. ${f.city||"______"}
+
+ПРОДАВАЧ: ${f.seller_name||"________________"}, ЕГН: ${f.seller_egn||"__________"}
+Адрес: ${f.seller_address||"________________"}
+
+КУПУВАЧ: ${f.buyer_name||"________________"}, ЕГН/ЛНЧ: ${f.buyer_egn||"__________"}
+Адрес: ${f.buyer_address||"________________"}
+
+════════════════════════════════════════
+чл. 1. ПРЕДМЕТ
+Имот: ${f.property_desc||"________________________________"}
+Кадастрален №: ${f.cadastral||"________________"}
+Нот. акт: ${f.notarial_act||"________________"}
+ПРОДАВАЧЪТ декларира липса на тежести, възбрани и ипотеки.
+
+════════════════════════════════════════
+чл. 2. ЦЕНА И КАПАРО
+Продажна цена: ${f.price||"______"} лв
+Капаро при подписване: ${f.deposit||"______"} лв
+Остатък при нот. акт: ${f.price && f.deposit ? String(parseInt(f.price)-parseInt(f.deposit)) : "______"} лв
+
+════════════════════════════════════════
+чл. 3. СРОК
+Нотариален акт пред нотариус в гр. ${f.notary_city||"______"}
+в срок до: ${f.deadline||"__.__.__"} г.
+
+════════════════════════════════════════
+чл. 4. НЕУСТОЙКИ
+Вина на КУПУВАЧА → ПРОДАВАЧЪТ задържа капарото.
+Вина на ПРОДАВАЧА → връща капарото в двоен размер: ${f.deposit ? String(parseInt(f.deposit)*2) : "______"} лв.
+(чл. 19, ал. 3 ЗЗД — право на обявяване за окончателен)
+
+чл. 5. Нотариалните такси и данъкът се заплащат от КУПУВАЧА.
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}    Гр. ${f.city||"______"}
+
+ПРОДАВАЧ: _________________  (${f.seller_name||""})
+КУПУВАЧ:  _________________  (${f.buyer_name||""})
+`
+  },
+  {
+    id: "g6", cat: "property",
+    ru: "Декларация по чл. 25 ЗННД (гражданство и семейное положение)", en: "Declaration Art. 25 NNDA", bg: "Декларация по чл. 25 ЗННД",
+    basis: "ЗННД чл. 25, ал. 8", source: "Нотариус",
+    info_ru: "Обязательная декларация при нотариальных сделках. Подписывается лично перед нотариусом. Ложные сведения — ст. 313 НК.",
+    info_en: "Mandatory for notarial transactions. Signed personally before notary.",
+    docs_ru: "Подписывается лично перед нотариусом.",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"name", label:{ru:"ФИО", en:"Full name", bg:"Три имена"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"pob", label:{ru:"Место рождения", en:"Place of birth", bg:"Място на раждане"}, placeholder:"гор. Москва, СССР" },
+      { key:"citizenship", label:{ru:"Гражданство", en:"Citizenship", bg:"Гражданство"}, placeholder:"Российская Федерация" },
+      { key:"gender", label:{ru:"Пол", en:"Gender", bg:"Пол"}, placeholder:"мужской / женский" },
+      { key:"passport_ru", label:{ru:"Внутренний паспорт РФ", en:"Russian passport", bg:"Вътрешен паспорт"}, placeholder:"серия/номер, кем выдан, дата выдачи" },
+      { key:"passport_foreign", label:{ru:"Загранпаспорт", en:"Foreign passport", bg:"Задграничен паспорт"}, placeholder:"P RUS №..., МВД ..., от ..., до ..." },
+      { key:"address_ru", label:{ru:"Адрес регистрации", en:"Registration address", bg:"Адрес"}, placeholder:"Россия, г. Москва, ул. ..." },
+      { key:"eik_bg", label:{ru:"ЛНЧ/ЕИК в Болгарии", en:"PNF/EIK Bulgaria", bg:"ЛНЧ/ЕИК в България"}, placeholder:"1234567890" },
+      { key:"marital_status", label:{ru:"Семейное положение", en:"Marital status", bg:"Семейно положение"}, placeholder:"женат / не женат / замужем / вдовец / разведён" },
+      { key:"spouse_name", label:{ru:"ФИО и дата рожд. супруга/и", en:"Spouse name & DOB", bg:"Съпруг/а и дата"}, placeholder:"Мария Иванова, 08.01.1987" },
+      { key:"marriage_date", label:{ru:"Дата и св-во о браке", en:"Marriage certificate", bg:"Акт за брак"}, placeholder:"01.09.2010, св-во серия № ..." },
+      { key:"prev_marriages", label:{ru:"Предыдущие браки", en:"Previous marriages", bg:"Предишни бракове"}, placeholder:"есть / нет" },
+    ],
+    generate: (f) => `ДЕКЛАРАЦИЯ
+по чл. 25, ал. 8 от Закона за нотариусите и нотариалната дейност
+
+Аз, долуподписаният/ата, гр. ${f.name||"________________"},
+${f.dob||"__.__.__"} г.р., место рождения: ${f.pob||"________________"},
+гражданство: ${f.citizenship||"________________"}, пол: ${f.gender||"________________"},
+
+паспорт: ${f.passport_ru||"________________"},
+загранпаспорт: ${f.passport_foreign||"________________"},
+адрес: ${f.address_ru||"________________"},
+ЛНЧ/ЕИК в НАП България: ${f.eik_bg||"________________"},
+
+ДЕКЛАРИРАМ:
+
+1. Гражданство: ${f.citizenship||"________________"}
+
+2. Постоянен адрес: ${f.address_ru||"________________"}
+
+3. Семейно положение: ${f.marital_status||"________________"}
+${f.spouse_name ? "   Съпруг/а: " + f.spouse_name : ""}
+${f.marriage_date ? "   Брак сключен: " + f.marriage_date : ""}
+
+4. Предишни бракове: ${f.prev_marriages||"________________"}
+
+Известна ми е наказателната отговорност по чл. 313 от НК
+за деклариране на неверни обстоятелства.
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+
+ДЕКЛАРАТОР: _________________  (${f.name||""})
+`
+  },
+  {
+    id: "g7", cat: "property",
+    ru: "Декларация по чл. 42 ЗМИП (против отмывания денег)", en: "Declaration Art. 42 AMLA (anti-money laundering)", bg: "Декларация по чл. 42 ЗМИП",
+    basis: "ЗМИП чл. 42, ал. 2, т. 2", source: "Нотариус",
+    info_ru: "Обязательная декларация при нотариальных сделках с недвижимостью. Декларирует что лицо не является политически значимым (PEP).",
+    info_en: "Mandatory for notarial real estate transactions. Declares person is not a politically exposed person (PEP).",
+    docs_ru: "Подписывается лично перед нотариусом.",
+    fields: [
+      { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
+      { key:"name", label:{ru:"ФИО", en:"Full name", bg:"Три имена"}, placeholder:"Иван Иванов Иванов" },
+      { key:"dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"pob", label:{ru:"Место рождения", en:"Place of birth", bg:"Място на раждане"}, placeholder:"гор. Москва, СССР" },
+      { key:"citizenship", label:{ru:"Гражданство", en:"Citizenship", bg:"Гражданство"}, placeholder:"Российская Федерация" },
+      { key:"passport_foreign", label:{ru:"Загранпаспорт", en:"Passport", bg:"Паспорт"}, placeholder:"P RUS №..., МВД ..., до ..." },
+      { key:"address_ru", label:{ru:"Адрес", en:"Address", bg:"Адрес"}, placeholder:"Россия, г. Москва, ул. ..." },
+      { key:"eik_bg", label:{ru:"ЛНЧ/ЕИК в Болгарии", en:"PNF/EIK Bulgaria", bg:"ЛНЧ/ЕИК в България"}, placeholder:"1234567890" },
+    ],
+    generate: (f) => `ДЕКЛАРАЦИЯ
+по чл. 42, ал. 2, т. 2 от ЗМИП
+Приложение № 1 към чл. 26, ал. 1
+
+Аз, долуподписаният/ата, гр. ${f.name||"________________"},
+${f.dob||"__.__.__"} г.р., место рождения: ${f.pob||"________________"},
+гражданство: ${f.citizenship||"________________"},
+паспорт: ${f.passport_foreign||"________________"},
+адрес: ${f.address_ru||"________________"},
+ЛНЧ/ЕИК в НАП: ${f.eik_bg||"________________"},
+
+ЗАЯВЯВАМ:
+
+[X] НЕ подпадам под категориите по чл. 36, ал. 2 от ЗМИП
+    (политически значими лица).
+
+[X] За последните 12 месеца НЕ подпадах под категориите
+    по чл. 36, ал. 2 от ЗМИП.
+
+[X] НЕ подпадам под категориите по чл. 36, ал. 5 от ЗМИП
+    (свързани с политически значими лица).
+
+[X] За последните 12 месеца НЕ подпадах под категориите
+    по чл. 36, ал. 5 от ЗМИП.
+
+Известна ми е наказателната отговорност по чл. 313 от НК
+за деклариране на неверни обстоятелства.
+
+════════════════════════════════════════
+Дата: ${f.date||"__.__.__"}
+
+ДЕКЛАРАТОР: _________________  (${f.name||""})
+`
+  },
+  {
+    id: "g8", cat: "property",
+    ru: "Пълномощно за продажба на недвижим имот", en: "Power of Attorney for Real Estate Sale", bg: "Пълномощно за продажба на недвижим имот",
+    basis: "ЗЗД чл. 36-43, ЗННД", source: "Нотариус",
+    info_ru: "Для россиян: заверяется у российского нотариуса с апостилем, затем перевод на болгарский язык. Без нотариального заверения — недействительна.",
+    info_en: "For Russians: notarized in Russia with apostille, then Bulgarian translation required.",
+    docs_ru: "Российский нотариус → апостиль → перевод на болгарский → принимается в Болгарии.",
+    fields: [
+      { key:"date", label:{ru:"Дата и город (Россия)", en:"Date and city (Russia)", bg:"Дата и град (Русия)"}, placeholder:"__ августа 2025 года, город Москва" },
+      { key:"principal_name", label:{ru:"ФИО доверителя", en:"Principal name", bg:"Упълномощител"}, placeholder:"Иван Иванов Иванов" },
+      { key:"principal_dob", label:{ru:"Дата рождения", en:"DOB", bg:"Дата на раждане"}, placeholder:"28.09.1981" },
+      { key:"principal_passport_ru", label:{ru:"Внутренний паспорт РФ", en:"Russian passport", bg:"Вътрешен паспорт"}, placeholder:"серия №, кем выдан, дата" },
+      { key:"principal_passport_foreign", label:{ru:"Загранпаспорт", en:"Foreign passport", bg:"Задграничен паспорт"}, placeholder:"P RUS №..., МВД ..., от ..., до ..." },
+      { key:"principal_address", label:{ru:"Адрес доверителя", en:"Principal address", bg:"Адрес"}, placeholder:"Россия, г. Москва, ул. ..." },
+      { key:"principal_eik", label:{ru:"ЛНЧ/ЕИК в Болгарии", en:"PNF/EIK Bulgaria", bg:"ЛНЧ/ЕИК в България"}, placeholder:"1234567890" },
+      { key:"agent_name", label:{ru:"ФИО поверенного", en:"Agent name", bg:"Пълномощник"}, placeholder:"Мария Петрова Иванова" },
+      { key:"agent_egn", label:{ru:"ЕГН/ЛНЧ поверенного", en:"Agent EGN/PNF", bg:"ЕГН/ЛНЧ пълномощник"}, placeholder:"8701087890" },
+      { key:"property_desc", label:{ru:"Описание имущества", en:"Property", bg:"Имот"}, placeholder:"Апартамент № 15, ет.1, комплекс ..., гр. Свети Влас, общ. Несебър" },
+      { key:"cadastral", label:{ru:"Кадастральный идентификатор", en:"Cadastral ID", bg:"Кадастрален идентификатор"}, placeholder:"51500.506.331.1.15" },
+      { key:"notarial_act", label:{ru:"Нотариальный акт", en:"Notarial deed", bg:"Нотариален акт"}, placeholder:"№ ..., том ..., рег. №..., дело №.../год" },
+      { key:"price_eur", label:{ru:"Цена не менее (EUR)", en:"Price not less than (EUR)", bg:"Цена не по-малко от (EUR)"}, placeholder:"85000" },
+      { key:"bank_account", label:{ru:"Банковский счёт продавца", en:"Seller bank account", bg:"Банкова сметка"}, placeholder:"IBAN ..., AO Raiffeisenbank, SWIFT: RZBMRUMM" },
+      { key:"validity", label:{ru:"Срок действия", en:"Validity", bg:"Срок"}, placeholder:"три года" },
+    ],
+    generate: (f) => `ДОВЕРЕННОСТЬ
+
+${f.date||"________________"}.
+
+Я, гр. ${f.principal_name||"________________"},
+${f.principal_dob||"__.__.__"} г.р.,
+паспорт: ${f.principal_passport_ru||"________________"},
+загранпаспорт: ${f.principal_passport_foreign||"________________"},
+адрес: ${f.principal_address||"________________"},
+ЛНЧ/ЕИК в Болгарии: ${f.principal_eik||"________________"},
+
+НАСТОЯЩЕЙ ДОВЕРЕННОСТЬЮ УПОЛНОМОЧИВАЮ
+
+гр. ${f.agent_name||"________________"}, ЕГН/ЛНЧ: ${f.agent_egn||"________________"},
+
+════════════════════════════════════════
+ИМУЩЕСТВО:
+${f.property_desc||"________________________________"}
+Кадастральный идентификатор: ${f.cadastral||"________________"}
+Нотариальный акт: ${f.notarial_act||"________________"}
+
+════════════════════════════════════════
+ПОЛНОМОЧИЯ:
+
+1. Представлять меня при продаже указанного имущества
+   по цене не менее ${f.price_eur||"______"} EUR.
+
+2. Подписывать предварительный договор и нотариальный акт.
+
+3. Получать продажную цену и перечислять на счёт:
+   ${f.bank_account||"________________"}
+
+4. Представлять меня в НАП, Агентстве по вписванията,
+   общине и всех органах Болгарии.
+
+5. Подписывать декларации по чл. 25 ЗННД и чл. 42 ЗМИП.
+
+6. Заявить что я не числюсь в санкционных списках ЕС
+   (Регламенты № 833/2014 и 2022/878).
+
+Доверенность выдана сроком на ${f.validity||"три года"}, без права передоверия.
+
+════════════════════════════════════════
+Доверитель: _________________  (${f.principal_name||""})
+
+НОТАРИАЛЬНОЕ УДОСТОВЕРЕНИЕ:
+Нотариус: _________________
+Рег. №: _______  Печат: [  ]
+
+⚠️ Требуется: нотариальное заверение + апостиль + перевод на болгарский!
+`
+  },
 ];
 
 const ALL_TEMPLATES = [...TEMPLATES_MIGRATION, ...TEMPLATES_BCCI, ...TEMPLATES_GENERAL];
@@ -774,12 +1026,12 @@ const AREAS = {
 };
 
 const CAT_LABELS = {
-  ru:{ migration:"МВР Миграция", bcci:"БТТП", contract:"Договоры", application:"Заявления", complaint:"Претензии", lawsuit:"Иски" },
-  en:{ migration:"MVR Migration", bcci:"BCCI", contract:"Contracts", application:"Applications", complaint:"Complaints", lawsuit:"Lawsuits" },
-  bg:{ migration:"МВР Миграция", bcci:"БТПП", contract:"Договори", application:"Заявления", complaint:"Жалби", lawsuit:"Искове" },
+  ru:{ migration:"МВР Миграция", bcci:"БТТП", contract:"Договоры", application:"Заявления", complaint:"Претензии", lawsuit:"Иски", property:"Недвижимость" },
+  en:{ migration:"MVR Migration", bcci:"BCCI", contract:"Contracts", application:"Applications", complaint:"Complaints", lawsuit:"Lawsuits", property:"Property" },
+  bg:{ migration:"МВР Миграция", bcci:"БТПП", contract:"Договори", application:"Заявления", complaint:"Жалби", lawsuit:"Искове", property:"Недвижимост" },
 };
-const CAT_COLORS = { migration:"#2563EB", bcci:"#B45309", contract:"#059669", application:"#7C3AED", complaint:"#DC2626", lawsuit:"#374151" };
-const CAT_ICONS = { migration:"🛂", bcci:"🏛", contract:"📄", application:"📝", complaint:"⚠️", lawsuit:"⚖️" };
+const CAT_COLORS = { migration:"#2563EB", bcci:"#B45309", contract:"#059669", application:"#7C3AED", complaint:"#DC2626", lawsuit:"#374151", property:"#9D4EDD" };
+const CAT_ICONS = { migration:"🛂", bcci:"🏛", contract:"📄", application:"📝", complaint:"⚠️", lawsuit:"⚖️", property:"🏠" };
 
 const UI = {
   ru:{ home:"Главная", laws:"Законы", court:"Практика", templates:"Шаблоны", ai:"AI", search:"Поиск...", searchLex:"Поиск на lex.bg...", allAreas:"Все", all:"Все", codes:"Кодексы", acts:"Законы", regs:"Наредби", allCourts:"Все", aiHi:"Я — AI-помощник по болгарскому праву. Задайте вопрос.", aiPH:"Ваш вопрос...", loading:"Поиск...", openLex:"Найти на lex.bg", noRes:"Ничего не найдено", copy:"📋 Скопировать", copied:"✅ Скопировано!", generate:"📄 Сгенерировать документ", preview:"Документ готов:", required:"Необходимые документы:", info:"Информация:", quickQ:["Как получить ВНЖ?","Открыть ООД?","Ставка НДС?","Регистрация в БТТП?","Трудовой договор?"] },
@@ -810,7 +1062,7 @@ export default function App() {
   const [sc, setSc] = useState("home");
   const [prev, setPrev] = useState([]);
   const [det, setDet] = useState(null);
-  const [lang, setLang] = useState("bg");
+  const [lang, setLang] = useState("ru");
   const [bms, setBms] = useState([]);
   const [areaF, setAreaF] = useState("all");
   const [typeF, setTypeF] = useState("all");
@@ -865,7 +1117,7 @@ export default function App() {
 
   const LangBar=()=>(
     <div style={{display:"flex",gap:6,padding:"8px 14px",borderBottom:`1px solid ${C.bd}`,background:C.sf}}>
-      {["bg","en","ru"].map(l=><button key={l} onClick={()=>setLang(l)} style={s.pill(lang===l,C.gold)}>{l==="ru"?"🇷🇺 RU":l==="en"?"🇬🇧 EN":"🇧🇬 BG"}</button>)}
+      {["ru","en","bg"].map(l=><button key={l} onClick={()=>setLang(l)} style={s.pill(lang===l,C.gold)}>{l==="ru"?"🇷🇺 RU":l==="en"?"🇬🇧 EN":"🇧🇬 BG"}</button>)}
     </div>
   );
 
@@ -945,7 +1197,7 @@ export default function App() {
                 </div>
               ))}
             </div>
-            <div onClick={()=>window.open("https://t.me/Yurii_lawyer","_blank")} style={{background:"linear-gradient(135deg,#1a3a2a,#0d2018)",border:"1px solid #22c55e60",borderRadius:12,padding:"14px 16px",marginBottom:14,cursor:"pointer",borderLeft:"4px solid #22c55e"}}><div style={{fontSize:10,color:"#22c55e",letterSpacing:2,marginBottom:4}}>{lang==="ru"?"⚖️ ЮРИСТ В БОЛГАРИИ":lang==="en"?"⚖️ LEGAL CONSULTATION":"⚖️ ЮРИСТ В БЪЛГАРИЯ"}</div><div style={{fontSize:14,fontWeight:"bold",color:"#f0fdf4",marginBottom:6}}>{lang==="ru"?"Нужна помощь с документами?":lang==="en"?"Need legal help?":"Нужна помощ с документи?"}</div><div style={{background:"#22c55e",color:"#fff",borderRadius:20,padding:"8px 18px",fontSize:13,fontWeight:"bold",display:"inline-block"}}>Telegram →</div></div><div onClick={()=>window.open("https://t.me/Yurii_lawyer","_blank")} style={{background:"linear-gradient(135deg,#1a3a2a,#0d2018)",border:"1px solid #22c55e60",borderRadius:12,padding:"14px 16px",marginBottom:14,cursor:"pointer",borderLeft:"4px solid #22c55e"}}><div style={{fontSize:10,color:"#22c55e",letterSpacing:2,marginBottom:4}}>⚖️ ЮРИСТ В БЪЛГАРИЯ / ЮРИСТ В БОЛГАРИИ</div><div style={{fontSize:14,fontWeight:"bold",color:"#f0fdf4",marginBottom:10}}>Помощ с документи · ВНЖ · Представителство</div><div style={{background:"#22c55e",color:"#fff",borderRadius:20,padding:"8px 18px",fontSize:13,fontWeight:"bold",display:"inline-block"}}>Telegram →</div></div><div style={{fontSize:10,color:C.gold,letterSpacing:2,marginBottom:8}}>🔍 LEX.BG</div>
+            <div style={{fontSize:10,color:C.gold,letterSpacing:2,marginBottom:8}}>🔍 LEX.BG</div>
             <div style={{display:"flex",gap:8,marginBottom:14}}>
               <input style={{...s.inp,flex:1}} placeholder={t.searchLex} value={lexQ} onChange={e=>setLexQ(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&lexQ.trim())window.open(`https://lex.bg/bg/laws/ldoc/search?q=${encodeURIComponent(lexQ)}`,"_blank");}}/>
               <button onClick={()=>{if(lexQ.trim())window.open(`https://lex.bg/bg/laws/ldoc/search?q=${encodeURIComponent(lexQ)}`,"_blank");}} style={{background:C.gold,color:C.bg,border:"none",borderRadius:8,padding:"0 14px",cursor:"pointer",fontSize:14,fontWeight:"bold"}}>→</button>
@@ -1051,7 +1303,7 @@ export default function App() {
         </div>
         <LangBar/>
         <div style={{...s.row,padding:"10px 14px"}}>
-          {[["all",t.all],["migration","🛂 "+CAT_LABELS[lang].migration],["bcci","🏛 "+CAT_LABELS[lang].bcci],["contract",CAT_LABELS[lang].contract],["application",CAT_LABELS[lang].application],["complaint",CAT_LABELS[lang].complaint],["lawsuit",CAT_LABELS[lang].lawsuit]].map(([v,l])=>(
+          {[["all",t.all],["migration","🛂 "+CAT_LABELS[lang].migration],["bcci","🏛 "+CAT_LABELS[lang].bcci],["property","🏠 "+CAT_LABELS[lang].property],["contract",CAT_LABELS[lang].contract],["application",CAT_LABELS[lang].application],["complaint",CAT_LABELS[lang].complaint],["lawsuit",CAT_LABELS[lang].lawsuit]].map(([v,l])=>(
             <button key={v} style={s.pill(tmplCat===v,CAT_COLORS[v]||C.gold)} onClick={()=>setTmplCat(v)}>{l}</button>
           ))}
         </div>
