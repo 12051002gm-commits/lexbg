@@ -1,36 +1,36 @@
 import { useState, useRef, useEffect } from "react";
 
 const LAWS = [
-  { id:1, title_bg:"Граждански процесуален кодекс", title_ru:"Гражданский процессуальный кодекс", title_en:"Civil Procedure Code", type:"kodeks", area:["civil"], year:2007 },
-  { id:2, title_bg:"Наказателен кодекс", title_ru:"Уголовный кодекс", title_en:"Penal Code", type:"kodeks", area:["criminal"], year:1968 },
-  { id:3, title_bg:"Търговски закон", title_ru:"Торговый закон", title_en:"Commercial Act", type:"kodeks", area:["business"], year:1991 },
-  { id:4, title_bg:"Кодекс на труда", title_ru:"Трудовой кодекс", title_en:"Labour Code", type:"kodeks", area:["labor"], year:1986 },
-  { id:5, title_bg:"Данъчно-осигурителен процесуален кодекс", title_ru:"Налогово-страховой кодекс", title_en:"Tax-Insurance Procedure Code", type:"kodeks", area:["tax"], year:2005 },
-  { id:6, title_bg:"Административнопроцесуален кодекс", title_ru:"Административно-процессуальный кодекс", title_en:"Administrative Procedure Code", type:"kodeks", area:["admin"], year:2006 },
-  { id:7, title_bg:"Семеен кодекс", title_ru:"Семейный кодекс", title_en:"Family Code", type:"kodeks", area:["civil"], year:2009 },
-  { id:8, title_bg:"Наказателно-процесуален кодекс", title_ru:"Уголовно-процессуальный кодекс", title_en:"Criminal Procedure Code", type:"kodeks", area:["criminal"], year:2005 },
-  { id:9, title_bg:"Закон за задълженията и договорите", title_ru:"Закон об обязательствах и договорах", title_en:"Obligations and Contracts Act", type:"kodeks", area:["civil"], year:1950 },
-  { id:20, title_bg:"Закон за чужденците в Република България", title_ru:"Закон об иностранцах в РБ", title_en:"Foreigners in Bulgaria Act", type:"zakon", area:["migration"], year:1998 },
-  { id:21, title_bg:"Закон за влизането, пребиваването и напускането на РБ на гражданите на ЕС", title_ru:"Закон о въезде граждан ЕС", title_en:"EU Citizens Entry and Residence Act", type:"zakon", area:["migration"], year:2006 },
-  { id:22, title_bg:"Закон за убежището и бежанците", title_ru:"Закон об убежище и беженцах", title_en:"Asylum and Refugees Act", type:"zakon", area:["migration"], year:2002 },
-  { id:23, title_bg:"Закон за българското гражданство", title_ru:"Закон о болгарском гражданстве", title_en:"Bulgarian Citizenship Act", type:"zakon", area:["migration"], year:1998 },
-  { id:24, title_bg:"Закон за трудовата миграция и трудовата мобилност", title_ru:"Закон о трудовой миграции", title_en:"Labour Migration and Mobility Act", type:"zakon", area:["migration","labor"], year:2016 },
-  { id:25, title_bg:"Закон за насърчаване на инвестициите", title_ru:"Закон о поощрении инвестиций", title_en:"Investment Promotion Act", type:"zakon", area:["business","migration"], year:1997 },
-  { id:30, title_bg:"Закон за корпоративното подоходно облагане", title_ru:"Закон о корпоративном налоге", title_en:"Corporate Income Tax Act", type:"zakon", area:["tax"], year:2006 },
-  { id:31, title_bg:"Закон за данък върху добавената стойност", title_ru:"Закон об НДС", title_en:"VAT Act", type:"zakon", area:["tax"], year:2006 },
-  { id:32, title_bg:"Закон за данъците върху доходите на физическите лица", title_ru:"Закон о НДФЛ", title_en:"Personal Income Tax Act", type:"zakon", area:["tax"], year:2006 },
-  { id:40, title_bg:"Закон за търговския регистър и регистъра на ЮЛНЦ", title_ru:"Закон о торговом реестре", title_en:"Commercial Register Act", type:"zakon", area:["business"], year:2006 },
-  { id:41, title_bg:"Закон за счетоводството", title_ru:"Закон о бухгалтерском учёте", title_en:"Accountancy Act", type:"zakon", area:["tax","business"], year:2015 },
-  { id:50, title_bg:"Закон за собствеността", title_ru:"Закон о собственности", title_en:"Property Act", type:"zakon", area:["property"], year:1951 },
-  { id:51, title_bg:"Закон за кадастъра и имотния регистър", title_ru:"Закон о кадастре", title_en:"Cadastre and Property Register Act", type:"zakon", area:["property"], year:2000 },
-  { id:60, title_bg:"Закон за администрацията", title_ru:"Закон об администрации", title_en:"Administration Act", type:"zakon", area:["admin"], year:1998 },
-  { id:61, title_bg:"Закон за достъп до обществена информация", title_ru:"Закон о доступе к информации", title_en:"Access to Public Information Act", type:"zakon", area:["admin"], year:2000 },
-  { id:70, title_bg:"Закон за здравословни и безопасни условия на труд", title_ru:"Закон об охране труда", title_en:"Health and Safety at Work Act", type:"zakon", area:["labor"], year:1997 },
-  { id:80, title_bg:"Закон за наследството", title_ru:"Закон о наследовании", title_en:"Inheritance Act", type:"zakon", area:["civil"], year:1949 },
-  { id:81, title_bg:"Закон за защита на потребителите", title_ru:"Закон о защите потребителей", title_en:"Consumer Protection Act", type:"zakon", area:["civil","business"], year:2005 },
-  { id:82, title_bg:"Закон за защита на личните данни", title_ru:"Закон о защите персональных данных", title_en:"Personal Data Protection Act", type:"zakon", area:["civil","admin"], year:2002 },
-  { id:90, title_bg:"Наредба за регистрация на чужденците", title_ru:"Наредба о регистрации иностранцев", title_en:"Regulation on Registration of Foreigners", type:"naredba", area:["migration"], year:2011 },
-  { id:91, title_bg:"Наредба № Н-18 за регистриране на продажби", title_ru:"Наредба о регистрации продаж", title_en:"Regulation N-18 on Sales Registration", type:"naredba", area:["tax","business"], year:2006 },
+  { id:1, title_bg:"Граждански процесуален кодекс", title_ru:"Гражданский процессуальный кодекс", title_en:"Civil Procedure Code", type:"kodeks", area:["civil"], year:2007, url:"https://lex.bg/laws/ldoc/2135558368" },
+  { id:2, title_bg:"Наказателен кодекс", title_ru:"Уголовный кодекс", title_en:"Penal Code", type:"kodeks", area:["criminal"], year:1968, url:"https://lex.bg/laws/ldoc/1589654529" },
+  { id:3, title_bg:"Търговски закон", title_ru:"Торговый закон", title_en:"Commercial Act", type:"kodeks", area:["business"], year:1991, url:"https://lex.bg/laws/ldoc/1597824628" },
+  { id:4, title_bg:"Кодекс на труда", title_ru:"Трудовой кодекс", title_en:"Labour Code", type:"kodeks", area:["labor"], year:1986, url:"https://lex.bg/laws/ldoc/1594373121" },
+  { id:5, title_bg:"Данъчно-осигурителен процесуален кодекс", title_ru:"Налогово-страховой кодекс", title_en:"Tax-Insurance Procedure Code", type:"kodeks", area:["tax"], year:2005, url:"https://lex.bg/laws/ldoc/2135488631" },
+  { id:6, title_bg:"Административнопроцесуален кодекс", title_ru:"Административно-процессуальный кодекс", title_en:"Administrative Procedure Code", type:"kodeks", area:["admin"], year:2006, url:"https://lex.bg/laws/ldoc/2135558368" },
+  { id:7, title_bg:"Семеен кодекс", title_ru:"Семейный кодекс", title_en:"Family Code", type:"kodeks", area:["civil"], year:2009, url:"https://lex.bg/laws/ldoc/2135600528" },
+  { id:8, title_bg:"Наказателно-процесуален кодекс", title_ru:"Уголовно-процессуальный кодекс", title_en:"Criminal Procedure Code", type:"kodeks", area:["criminal"], year:2005, url:"https://lex.bg/laws/ldoc/2135488619" },
+  { id:9, title_bg:"Закон за задълженията и договорите", title_ru:"Закон об обязательствах и договорах", title_en:"Obligations and Contracts Act", type:"kodeks", area:["civil"], year:1950, url:"https://lex.bg/laws/ldoc/1588654657" },
+  { id:20, title_bg:"Закон за чужденците в Република България", title_ru:"Закон об иностранцах в РБ", title_en:"Foreigners in Bulgaria Act", type:"zakon", area:["migration"], year:1998, url:"https://lex.bg/laws/ldoc/2134447116" },
+  { id:21, title_bg:"Закон за влизането, пребиваването и напускането на РБ на гражданите на ЕС", title_ru:"Закон о въезде граждан ЕС", title_en:"EU Citizens Entry and Residence Act", type:"zakon", area:["migration"], year:2006, url:"https://lex.bg/laws/ldoc/2135509934" },
+  { id:22, title_bg:"Закон за убежището и бежанците", title_ru:"Закон об убежище и беженцах", title_en:"Asylum and Refugees Act", type:"zakon", area:["migration"], year:2002, url:"https://lex.bg/laws/ldoc/2135101229" },
+  { id:23, title_bg:"Закон за българското гражданство", title_ru:"Закон о болгарском гражданстве", title_en:"Bulgarian Citizenship Act", type:"zakon", area:["migration"], year:1998, url:"https://lex.bg/laws/ldoc/2134447032" },
+  { id:24, title_bg:"Закон за трудовата миграция и трудовата мобилност", title_ru:"Закон о трудовой миграции", title_en:"Labour Migration and Mobility Act", type:"zakon", area:["migration","labor"], year:2016, url:"https://lex.bg/laws/ldoc/2136912513" },
+  { id:25, title_bg:"Закон за насърчаване на инвестициите", title_ru:"Закон о поощрении инвестиций", title_en:"Investment Promotion Act", type:"zakon", area:["business","migration"], year:1997, url:"https://lex.bg/laws/ldoc/2134395927" },
+  { id:30, title_bg:"Закон за корпоративното подоходно облагане", title_ru:"Закон о корпоративном налоге", title_en:"Corporate Income Tax Act", type:"zakon", area:["tax"], year:2006, url:"https://lex.bg/laws/ldoc/2135509982" },
+  { id:31, title_bg:"Закон за данък върху добавената стойност", title_ru:"Закон об НДС", title_en:"VAT Act", type:"zakon", area:["tax"], year:2006, url:"https://lex.bg/laws/ldoc/2135509994" },
+  { id:32, title_bg:"Закон за данъците върху доходите на физическите лица", title_ru:"Закон о НДФЛ", title_en:"Personal Income Tax Act", type:"zakon", area:["tax"], year:2006, url:"https://lex.bg/laws/ldoc/2135510001" },
+  { id:40, title_bg:"Закон за търговския регистър и регистъра на ЮЛНЦ", title_ru:"Закон о торговом реестре", title_en:"Commercial Register Act", type:"zakon", area:["business"], year:2006, url:"https://lex.bg/laws/ldoc/2135509921" },
+  { id:41, title_bg:"Закон за счетоводството", title_ru:"Закон о бухгалтерском учёте", title_en:"Accountancy Act", type:"zakon", area:["tax","business"], year:2015, url:"https://lex.bg/laws/ldoc/2136604688" },
+  { id:50, title_bg:"Закон за собствеността", title_ru:"Закон о собственности", title_en:"Property Act", type:"zakon", area:["property"], year:1951, url:"https://lex.bg/laws/ldoc/1588654733" },
+  { id:51, title_bg:"Закон за кадастъра и имотния регистър", title_ru:"Закон о кадастре", title_en:"Cadastre and Property Register Act", type:"zakon", area:["property"], year:2000, url:"https://lex.bg/laws/ldoc/2134447436" },
+  { id:60, title_bg:"Закон за администрацията", title_ru:"Закон об администрации", title_en:"Administration Act", type:"zakon", area:["admin"], year:1998, url:"https://lex.bg/laws/ldoc/2134395823" },
+  { id:61, title_bg:"Закон за достъп до обществена информация", title_ru:"Закон о доступе к информации", title_en:"Access to Public Information Act", type:"zakon", area:["admin"], year:2000, url:"https://lex.bg/laws/ldoc/2134447543" },
+  { id:70, title_bg:"Закон за здравословни и безопасни условия на труд", title_ru:"Закон об охране труда", title_en:"Health and Safety at Work Act", type:"zakon", area:["labor"], year:1997, url:"https://lex.bg/laws/ldoc/2134395728" },
+  { id:80, title_bg:"Закон за наследството", title_ru:"Закон о наследовании", title_en:"Inheritance Act", type:"zakon", area:["civil"], year:1949, url:"https://lex.bg/laws/ldoc/1588654725" },
+  { id:81, title_bg:"Закон за защита на потребителите", title_ru:"Закон о защите потребителей", title_en:"Consumer Protection Act", type:"zakon", area:["civil","business"], year:2005, url:"https://lex.bg/laws/ldoc/2135488657" },
+  { id:82, title_bg:"Закон за защита на личните данни", title_ru:"Закон о защите персональных данных", title_en:"Personal Data Protection Act", type:"zakon", area:["civil","admin"], year:2002, url:"https://lex.bg/laws/ldoc/2135101048" },
+  { id:90, title_bg:"Наредба за регистрация на чужденците", title_ru:"Наредба о регистрации иностранцев", title_en:"Regulation on Registration of Foreigners", type:"naredba", area:["migration"], year:2011, url:"https://lex.bg/bg/laws/ldoc/search?q=%D0%9D%D0%B0%D1%80%D0%B5%D0%B4%D0%B1%D0%B0+%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F+%D1%87%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D1%86%D0%B8" },
+  { id:91, title_bg:"Наредба № Н-18 за регистриране на продажби", title_ru:"Наредба о регистрации продаж", title_en:"Regulation N-18 on Sales Registration", type:"naredba", area:["tax","business"], year:2006, url:"https://lex.bg/bg/laws/ldoc/search?q=%D0%9D%D0%B0%D1%80%D0%B5%D0%B4%D0%B1%D0%B0+%D0%9D-18" },
 ];
 
 // ─── ШАБЛОНЫ: МИГРАЦИЯ МВР ───────────────────────────────────────────────────
@@ -1489,7 +1489,7 @@ export default function App() {
         </div>
         <div style={{padding:"14px 14px 80px"}}>
           <div style={{marginBottom:12}}>{det.area.map(a=>AREAS[a]&&<span key={a} style={s.badge(AREAS[a].color)}>{AREAS[a].icon} {al(a)}</span>)}<span style={s.badge(C.mt)}>📅 {det.year}</span></div>
-          <a href={`https://lex.bg/bg/laws/ldoc/search?q=${encodeURIComponent(det.title_bg)}`} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:8,background:C.gold+"20",border:`1px solid ${C.gold}40`,borderRadius:10,padding:"12px 14px",marginBottom:14,textDecoration:"none"}}>
+          <a href={det.url||`https://lex.bg/bg/laws/ldoc/search?q=${encodeURIComponent(det.title_bg)}`} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:8,background:C.gold+"20",border:`1px solid ${C.gold}40`,borderRadius:10,padding:"12px 14px",marginBottom:14,textDecoration:"none"}}>
             <span style={{fontSize:20}}>📖</span>
             <div><div style={{color:C.gold,fontWeight:"bold",fontSize:13}}>{t.openLex}</div><div style={{color:C.mt,fontSize:11}}>lex.bg — {lang==="ru"?"официальный источник":lang==="en"?"official source":"официален източник"}</div></div>
             <span style={{marginLeft:"auto",color:C.gold}}>↗</span>
