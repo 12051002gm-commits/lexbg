@@ -1066,10 +1066,7 @@ ${f.dob||"__.__.__"} г.р., гражданство: ${f.citizenship||"_________
     basis: "ЗГР чл. 93-96", source: "Община",
     info_ru: "Подаётся лично в Общину по месту нахождения имущества. Постоянный адрес (постоянен адрес) — основной адрес регистрации в Болгарии. Необходим для получения ЛНЧ, ВНЖ, банковских документов.",
     info_en: "Filed in person at the Municipality. Permanent address registration required for PNF, residence permits, banking.",
-    docs_ru: "1. Документ удостоверяющий право на имущество (нот. акт) или согласие собственника
-2. Паспорт/лична карта
-3. Декларация по чл. 92 ЗГР (прилагается)
-4. Без госпошлины",
+    docs_ru: "1. Нот. акт или съгласие на собственика\n2. Паспорт\n3. Декларация по чл. 92 ЗГР\n4. Без такса",
     fields: [
       { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
       { key:"municipality", label:{ru:"Название Общины", en:"Municipality", bg:"Община"}, placeholder:"Несебър / Бургас / Варна" },
@@ -1131,9 +1128,7 @@ ${f.property_basis||"________________________________"}
     basis: "ЗГР чл. 96", source: "Община",
     info_ru: "Настоящий адрес (настоящ адрес) — адрес фактического проживания, отличный от постоянного. Необходим для корреспонденции от государственных органов.",
     info_en: "Current address (different from permanent) — actual place of residence. Required for state correspondence.",
-    docs_ru: "1. Паспорт/лична карта
-2. Документ на жилище
-3. Без госпошлины",
+    docs_ru: "1. Паспорт\n2. Документ на жилище\n3. Без госпошлины",
     fields: [
       { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
       { key:"municipality", label:{ru:"Община", en:"Municipality", bg:"Община"}, placeholder:"Несебър / Бургас" },
@@ -1190,10 +1185,7 @@ ${f.current_address||"________________________________"}
     basis: "ЗРБУЛСТАТ чл. 3", source: "Агенция по вписванията",
     info_ru: "Регистрация в БУЛСТАТ обязательна для иностранных граждан, владеющих недвижимостью в Болгарии, а также для самозанятых и индивидуальных предпринимателей. Подаётся в Агенцию по вписванията или онлайн.",
     info_en: "BULSTAT registration mandatory for foreign nationals owning property in Bulgaria, self-employed, and sole traders. Filed at Agency of Registrations or online.",
-    docs_ru: "1. Паспорт (копия + оригинал)
-2. Документ-основание (нот. акт / договор)
-3. Форма Б1 или Б7
-4. Без госпошлины для физических лиц",
+    docs_ru: "1. Паспорт (копия + оригинал)\n2. Документ-основание (нот. акт / договор)\n3. Форма Б1 или Б7\n4. Без госпошлины",
     fields: [
       { key:"date", label:{ru:"Дата", en:"Date", bg:"Дата"}, placeholder:"01.01.2025" },
       { key:"name_latin", label:{ru:"ФИО (латиница, как в паспорте)", en:"Full name (Latin)", bg:"Три имена (латиница)"}, placeholder:"IVAN IVANOV IVANOV" },
