@@ -1342,7 +1342,7 @@ export default function App() {
   const [sc, setSc] = useState("home");
   const [prev, setPrev] = useState([]);
   const [det, setDet] = useState(null);
-  const [lang, setLang] = useState("ru");
+  const [lang, setLang] = useState("bg");
   const [bms, setBms] = useState([]);
   const [areaF, setAreaF] = useState("all");
   const [typeF, setTypeF] = useState("all");
@@ -1397,7 +1397,7 @@ export default function App() {
 
   const LangBar=()=>(
     <div style={{display:"flex",gap:6,padding:"8px 14px",borderBottom:`1px solid ${C.bd}`,background:C.sf}}>
-      {["ru","en","bg"].map(l=><button key={l} onClick={()=>setLang(l)} style={s.pill(lang===l,C.gold)}>{l==="ru"?"🇷🇺 RU":l==="en"?"🇬🇧 EN":"🇧🇬 BG"}</button>)}
+      {["bg","en","ru"].map(l=><button key={l} onClick={()=>setLang(l)} style={s.pill(lang===l,C.gold)}>{l==="ru"?"🇷🇺 RU":l==="en"?"🇬🇧 EN":"🇧🇬 BG"}</button>)}
     </div>
   );
 
